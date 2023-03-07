@@ -1,0 +1,62 @@
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.css" />
+        <title>Agendar uso de Vehículos</title>
+    </head>
+    <body>
+        <nav class="navbar navbar-dark bg-info">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">Bienvenido a la página {{user.first_name}} </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                </button>
+                <a class="navbar-brand align-content-center" href="#">
+                    <img src="https://th.bing.com/th/id/OIP.s_ZJ4JVzQk0cA67zFrQbPgAAAA?pid=ImgDet&rs=1" width="100px" height="80px">
+                    Agendamientos
+                </a>
+                <form class="d-flex">
+                    <a href= "/logout"class="btn btn-outline-warning" type="submit">Cerrar sesión</a>
+                </form>
+            </div>
+        </nav>
+        <h4 class="d-flex justify-content-center align-content-center mx-3 m-2">¿DESEAS REALIZAR UNA RESERVA DE UN VEHÍCULO DE LA EMPRESA?</h4>
+        <div class="d-flex justify-content-center align-content-center">
+                <a href="/new/agendamiento" class="btn btn-info">Agendar reserva</a>
+        </div>
+
+        <div class="row row-col-1 row-cols-sm-1 row-cols-md-3 row-cols-lg-4 mt-3 mb-1 mx-1">
+            {% for agendamiento in agendamientos %}
+
+                <div class="col-md-3 mb-3">
+                    <div class="card">
+                        <div class="card-header">
+                            Vehículo agendado por: <strong>{{agendamiento.first_name}}</strong>
+                        </div>
+                        <div style="width: 200px; height: 200px; display: grid; place-items: center; align-content: center;" class="card-body">
+                            <img src="{{agendamiento.imagen}}" width="200px"/>
+                        </div>
+                        <h5 class="d-flex justify-content-center align-content-center"> {{agendamiento.marca}} </h5>
+                        <h6 class="d-flex justify-content-center align-content-center"> Fecha de uso: {{agendamiento.fecha }}</h6>
+                        <div class="card-footer d-flex justify-content-between">
+                            <form action="/destroy/agendamiento/" method="POST">
+                                <input type="hidden" value="{{agendamiento.idagendamiento}}" name="id">
+                                <a href= "/agendamiento/{{agendamiento.idagendamiento}}"type="submit" class="btn btn-warning btn-sm">Ver más detalles</a> 
+                                {% if agendamiento.user_id == session.user_id %}
+                                <a href= "/edit/agendamiento/{{agendamiento.idagendamiento}}">Editar</a>
+                                {% endif %}  
+                                {% if agendamiento.user_id == session.user_id %}
+                                <a href= "/destroy/agendamiento/{{agendamiento.idagendamiento}}" type="submit" class="btn btn-outline-danger btn-sm">Eliminar</a>
+                                {% endif %} 
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            {% endfor %}
+        </div>
+    </body>
+    </html>

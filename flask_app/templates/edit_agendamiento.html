@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.css" />
+    <title>Editar Reserva</title>
+</head>
+<body>
+    <nav class="navbar navbar-dark bg-info">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Hola {{user.first_name}} </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            </button>
+            <a class="navbar-brand align-content-center" href="#">
+                <img src="https://th.bing.com/th/id/OIP.s_ZJ4JVzQk0cA67zFrQbPgAAAA?pid=ImgDet&rs=1" width="100px" height="80px">
+                Aquí pues modificar tu agendamiento
+            </a>
+            <form class="d-flex d-inline-block">
+                <a href= "/dashboard"class="btn btn-outline-warning" type="submit">Volver</a>
+            </form>
+            <form class="d-flex d-inline-block">
+                <a href= "/new/agendamiento"class="btn btn-outline-warning" type="submit">Agendar nuevo</a>
+            </form>
+            <form class="d-flex">
+                <a href= "/logout"class="btn btn-outline-warning" type="submit">Cerrar sesión</a>
+            </form>
+        </div>
+    </nav>
+    
+    <form action='/update/agendamiento'method="post" class="col-3 p-4 my-4 bg-secondary text-light mx-auto">
+    <h5 class="d-flex justify-content-center align-content-center">SELECCIONAR VEHICULO</h5>
+    <div class="d-flex justify-content-center align-content-center">
+        <div class="col-8">
+            <input type="hidden" name="idagendamiento" value={{edit.idagendamiento}}>
+            <select name="vehiculo_id"class="form-group col-8"id="vehiculo_id" style="width: 200px;">
+                <option value="1" data-img_src="https://1.bp.blogspot.com/-kZnH_XuKnys/T3VtzvUe1qI/AAAAAAAAK1U/v1LfCm_Ul9E/s1600/Toyota-Hilux_2012_800x600_wallpaper_07.jpg">Toyota Hilux</option>
+                <option value="2" data-img_src="https://immagini.alvolante.it/sites/default/files/styles/serie_auto_galleria_jpg/public/serie_auto_galleria/2016/05/fiat_fullback_ant.png?itok=5fgEpU_J">Fiat Fullback</option>
+                <option value="3" data-img_src="https://cdn.motor1.com/images/mgl/9b9gp/s4/vw-gol-g5.jpg">Volskwagen Gol</option>
+            </select>
+            <div class="form-group">
+                <label for="name">Modificar fecha reserva:</label>
+                <input type="date" name="fecha" value={{edit.fecha}} min="2023-01-01" max="2023-12-31" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="description">Completar motivo de uso:</label>
+                <textarea name="motivouso"  cols="30" rows="5" class="form-control">{{edit.motivouso}}</textarea>
+            </div>
+                <input type="submit" value="Actualizar" class="btn btn-info align-content-center justify-content-center">
+        </div>
+    </div>    
+    </form>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.js"></script>
+    <script type="text/javascript">
+        function custom_template(obj){
+                var data = $(obj.element).data();
+                var text = $(obj.element).text();
+                if(data && data['img_src']){
+                    img_src = data['img_src'];
+                    template = $("<div><img src=\"" + img_src + "\" style=\"width:100%;height:150px;\"/><p style=\"font-weight: 700;font-size:14pt;text-align:center;\">" + text + "</p></div>");
+                    return template;
+                }
+            }
+        var options = {
+            'templateSelection': custom_template,
+            'templateResult': custom_template,
+        }
+        $('#vehiculo_id').select2(options);
+        $('.select2-container--default .select2-selection--single').css({'height': '220px'});
+    
+    </script>
+</body>
+</html>
